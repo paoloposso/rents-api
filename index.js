@@ -1,19 +1,11 @@
-const express = require('express')
-const app = express()
-const port = 3000
+const express = require('express');
+const app = express();
+const port = process.env.PORT || 3000;
 
-const { AppartmentService } = require('./src/appartments/service');
+const apartmentRouter = require('./src/routes/appartment-routes');
 
-const service = new AppartmentService({ getByMinimumPrice: (num) => { return 'ok' } });
-
-app.get('/', async (req, res) => {
-    res.send(await service.getByMinimumPrice(50));
-});
-
-app.get('/byMinimumPrice', (req, res) => {
-    res.send(service.getByMinimumPrice(50));
-});
+apartmentRouter.register(app);
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
+  console.log(`listening at http://localhost:${port}`);
 });
