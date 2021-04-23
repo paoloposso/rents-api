@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const port = process.env.PORT || 3000;
 
-const apartmentRouter = require('./src/routes/appartment-routes');
+const apartmentRouter = require('./src/routes/apartment-routes');
 
 apartmentRouter.register(app);
 

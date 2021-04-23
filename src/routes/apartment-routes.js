@@ -1,7 +1,7 @@
-const { AppartmentService } = require('../apartments/service');
-const { AppartmentRepository } = require('../infrastructure/mongo-db/appartment-repository');
+const { ApartmentService } = require('../apartments/service');
+const { ApartmentRepository } = require('../infrastructure/mock-db/apartment-repository');
 
-const service = new AppartmentService(new AppartmentRepository());
+const service = new ApartmentService(new ApartmentRepository());
 
 module.exports.register = (app) => {
     app.get('/', async (req, res) => {

@@ -2,7 +2,7 @@
  * 
  * @param {*} repo 
  */
-function AppartmentService(repo) {
+function ApartmentService(repo) {
     this.repo = repo;
     
     this.getAll = async () => {
@@ -10,4 +10,4 @@ function AppartmentService(repo) {
     }
 }
 
-module.exports = { AppartmentService };
+module.exports = { ApartmentService };

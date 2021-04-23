@@ -1,7 +1,7 @@
-function AppartmentRepository() {
+function ApartmentRepository() {
     this.getAll = async () => {
         return [];
     }
 }
 
-module.exports = { AppartmentRepository };
+module.exports = { ApartmentRepository };
