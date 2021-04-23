@@ -8,18 +8,20 @@ class Apartment {
         this.description = description;
         this.address = address;
         this.price = price;
+
+        this.checkValid();
     }
 
-    isValid() {
+    checkValid() {
         let err = '';
 
-        if (!description || description === '') {
+        if (!this.description || this.description === '') {
             err += 'description is required\n';
         }
-        if (!address) {
+        if (!this.address) {
             err += 'address is required\n';
         }
-        if (!price || price === '') {
+        if (!this.price || this.price === '') {
             err += 'price is required\n';
         }
 
@@ -39,18 +41,20 @@ class Address {
         this.street = street;
         this.city = city;
         this.zip = zip;
+
+        checkValid();
     }
 
-    isValid() {
+    checkValid() {
         let err = '';
 
-        if (!street || street === '') {
+        if (!this.street || this.street === '') {
             err += 'street is required\n';
         }
-        if (!city || city === '') {
+        if (!this.city || this.city === '') {
             err += 'city is required\n';
         }
-        if (!zip || zip === '') {
+        if (!this.zip || this.zip === '') {
             err += 'zip is required\n';
         }
 

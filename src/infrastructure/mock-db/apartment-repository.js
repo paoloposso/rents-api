@@ -7,6 +7,14 @@ function ApartmentRepository() {
             new Apartment('Ap 2 marvelous', new Address('Marine Street', 'Santo Andre', '01255401')),
         ];
     }
+
+    this.create = async (appartment) => {
+        return Promise.resolve(appartment.id.toString());
+    }
+
+    this.update = async (appartment) => {
+        return Promise.resolve();
+    }
 }
 
 module.exports = { ApartmentRepository };
