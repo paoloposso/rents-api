@@ -1,31 +1,37 @@
 const { ApartmentService } = require('../apartments/service');
 const { ApartmentRepository } = require('../infrastructure/mongo-db/apartment-repository');
 const _ = require('lodash');
-const { Apartment } = require('../apartments/model');
 const idGenerator = require('../infrastructure/id-generator');
 const { getErrorResponse } = require('./error-response');
+const { DomainError } = require('../core/custom-error');
 
 const service = new ApartmentService(new ApartmentRepository(), idGenerator);
 
 module.exports.register = (app) => {
     app.get('/apartments', async (req, res) => {
-        res.send(await service.getAll());
+        try {
+            return res.send(await service.getAll());
+        } catch (err) {
+            return getErrorResponse(res, err.message, err, err.stack);
+        }
     });
     
     app.post('/apartment', async (req, res) => {
-        const ret = service.save(req.body);
-        res.send(await ret);
+        try {
+            return res.send(await service.save(req.body));
+        } catch (err) {
+            return getErrorResponse(res, err.message, err, err.stack);
+        }
     });
 
     app.put('/apartment', async (req, res) => {
-        if (!req.body.id) {
-            res.status(400).send(getErrorResponse("id is required"));
-        }
         try {
-            const ret = await service.save(req.body);
-            res.send(ret);
+            if (!req.body.id) {
+                throw new DomainError("id is required");
+            }
+            return res.send(await service.save(req.body));
         } catch (err) {
-            res.status(500).send(getErrorResponse(err.message, err, err.stack));
+            return getErrorResponse(res, err.message, err, err.stack);
         }
     });
 }

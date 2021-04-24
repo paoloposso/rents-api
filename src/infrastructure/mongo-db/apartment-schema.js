@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
+const _ = require('lodash');
 
 const apartmentSchema = new Schema({
     description: { type: String, required: true },
@@ -15,6 +16,15 @@ const apartmentSchema = new Schema({
 apartmentSchema.virtual('id').get(function() {
     return this._id.toString();
 });
+
+apartmentSchema.methods.toJSON = function () {
+    var model = this;
+    var apartmentObj = model.toObject();
+    apartmentObj.id = apartmentObj._id;
+    delete apartmentObj._id;
+    
+    return apartmentObj;
+};
 
 const ApartmentSchema = mongoose.model('Aparment', apartmentSchema);
 

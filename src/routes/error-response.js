@@ -1,8 +1,20 @@
-module.exports.getErrorResponse = (message, error, stack) => {
-    let ret = {
+const { DomainError, errorType } = require("../core/custom-error");
+
+module.exports.getErrorResponse = (res, message, error, stack) => {
+    const ret = {
         message,
         error,
         stack
     }
-    return ret;
+
+    res.status(getHttpCode(error)).send(ret);
+}
+
+function getHttpCode(err) {
+    switch (err.domainErrorType) {
+        case errorType.InvalidParameters:
+            return 400;
+        default:
+            return 500;
+    }
 }

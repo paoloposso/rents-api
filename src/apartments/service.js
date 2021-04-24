@@ -1,4 +1,5 @@
 const { Apartment } = require('./model');
+const { errorType, DomainError } = require('../core/custom-error');
 
 /**
  * 
@@ -19,53 +20,56 @@ function ApartmentService(repo, idGenerator) {
      * @returns 
      */
     this.save = async (apartment) => {
+        checkValidApartment(apartment);
+        checkValidAddress(apartment.address);
+
         if (!apartment.id) {
             apartment.id = this.idGenerator.generate();
             return await this.repo.insert(apartment);
         }
-        return await this.repo.update(apa);
+        return await this.repo.update(apartment);
+    }
+}
+
+function checkValidAddress(address) {
+    let err = '';
+
+    if (!address.street || address.street === '') {
+        err += 'street is required\n';
+    }
+    if (!address.city || address.city === '') {
+        err += 'city is required\n';
+    }
+    if (!address.zip || address.zip === '') {
+        err += 'zip is required\n';
+    }
+    if (!address.number || address.number === '') {
+        err += 'number is required\n';
     }
 
-    this.checkValidApartment  = (apartment) => {
-        let err = '';
+    if (err !== '') {
+        throw new DomainError(new Error(err), errorType.InvalidParameters);
+    }
+}
 
-        if (!apartment.description || apartment.description === '') {
-            err += 'description is required\n';
-        }
-        if (!apartment.address) {
-            err += 'address is required\n';
-        }
-        if (!apartment.price || apartment.price === '') {
-            err += 'price is required\n';
-        }
+function checkValidApartment(apartment) {
+    let err = '';
 
-        if (err !== '') {
-            throw Error(err);
-        }
-
-        checkValidAddress(apartment.address);
+    if (!apartment.description || apartment.description === '') {
+        err += 'description is required\n';
+    }
+    if (!apartment.address) {
+        err += 'address is required\n';
+    }
+    if (!apartment.price || apartment.price === '') {
+        err += 'price is required\n';
     }
 
-    this.checkValidAddress = (address) => {
-        let err = '';
-
-        if (!address.street || address.street === '') {
-            err += 'street is required\n';
-        }
-        if (!address.city || address.city === '') {
-            err += 'city is required\n';
-        }
-        if (!address.zip || address.zip === '') {
-            err += 'zip is required\n';
-        }
-        if (!address.number || address.number === '') {
-            err += 'number is required\n';
-        }
-
-        if (err !== '') {
-            throw Error(err);
-        }
+    if (err !== '') {
+        throw new DomainError(new Error(err), errorType.InvalidParameters);
     }
+
+    checkValidAddress(apartment.address);
 }
 
 module.exports = { ApartmentService };
