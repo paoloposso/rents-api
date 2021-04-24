@@ -12,7 +12,8 @@ it('create apartment', async () => {
 
 it('create apartment', async () => {
     try {
-        let ret = await service.save(new Apartment('', '100 alp st', 15000));
+        const apartment = new Apartment('', '100 alp st', 15000);
+        await service.save(apartment);
     } catch (err) {
         expect(err.message).toContain('description is required');
     }
