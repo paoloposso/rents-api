@@ -8,11 +8,12 @@ function ApartmentRepository() {
         ];
     }
 
-    this.create = async (appartment) => {
+    this.insert = async (appartment) => {
         return Promise.resolve(appartment.id.toString());
     }
 
     this.update = async (appartment) => {
+        console.log(Apartment);
         return Promise.resolve();
     }
 }

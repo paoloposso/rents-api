@@ -10,7 +10,7 @@ function ApartmentService(repo, idGenerator) {
     this.idGenerator = idGenerator;
     
     this.getAll = async () => {
-        return this.repo.getAll();
+        return await this.repo.getAll();
     }
 
     /**
@@ -21,9 +21,9 @@ function ApartmentService(repo, idGenerator) {
     this.save = async (apartment) => {
         if (!apartment.id) {
             apartment.id = this.idGenerator.generate();
-            return this.repo.create(apartment);
+            return await this.repo.insert(apartment);
         }
-        return this.repo.update(apa)
+        return await this.repo.update(apa);
     }
 
     this.checkValidApartment  = (apartment) => {
