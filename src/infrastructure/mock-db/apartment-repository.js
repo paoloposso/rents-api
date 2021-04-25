@@ -1,4 +1,5 @@
-const { Apartment, Address } = require("../../apartments/model");
+const { Address } = require("../../apartments/address");
+const { Apartment } = require("../../apartments/apartment");
 
 function ApartmentRepository() {
     this.getAll = async () => {

@@ -1,12 +1,13 @@
 const { ApartmentService } = require('../apartments/service');
 const { ApartmentRepository } = require('../infrastructure/mock-db/apartment-repository');
-const { Apartment, Address } = require('../apartments/model');
+const { Address } = require('../apartments/address');
+const { Apartment } = require('../apartments/apartment');
 const idGenerator = require('../infrastructure/id-generator');
 
 let service = new ApartmentService(new ApartmentRepository(), idGenerator)
 
 it('should create apartment', async () => {
-    let ret = await service.save(new Apartment('loasdlsa', new Address('green av', 'sao paulo', '0121679', '100'), 150.00));
+    let ret = await service.save(new Apartment('loasdlsa', new Address('green av', 'sao paulo', '100', '10020456', 'Sé', 'brazil'), 150.00));
     expect(ret).not.toBe('');
 });
 
@@ -28,7 +29,7 @@ it('should fail creation validation', async () => {
 
 it('should fail update validation', async () => {
     try {
-        let apartment = new Apartment('', new Address('', 'sao paulo', '0121679', '100'), 150.00);
+        let apartment = new Apartment('', new Address('', 'sao paulo', '200', '1804897', 'Sé', 'Brasil'), 150.00);
         apartment.id = idGenerator.generate();
         await service.save(apartment);
         fail('update should not have suceeded');
@@ -39,7 +40,7 @@ it('should fail update validation', async () => {
 
 it('should update', async () => {
     try {
-        let apartment = new Apartment('desc', new Address('av1', 'sao paulo', '0121679', '100'), 150.00);
+        let apartment = new Apartment('desc', new Address('av1', 'sao paulo', '155', '1002465', 'Sé', 'Brazil'), 150.00);
         apartment.id = idGenerator.generate();
         const ret = await service.save(apartment);
         expect(ret).not.toBe('');

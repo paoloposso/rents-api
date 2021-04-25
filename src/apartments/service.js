@@ -1,4 +1,5 @@
-const { Apartment } = require('./model');
+const { Apartment } = require('./apartment');
+const { Address } = require('./address');
 const { errorType, DomainError } = require('../core/custom-error');
 
 /**
@@ -31,6 +32,10 @@ function ApartmentService(repo, idGenerator) {
     }
 }
 
+/**
+ * 
+ * @param {Address} address 
+ */
 function checkValidAddress(address) {
     let err = '';
 
@@ -45,6 +50,9 @@ function checkValidAddress(address) {
     }
     if (!address.number || address.number === '') {
         err += 'number is required\n';
+    }
+    if (!address.country || address.country === '') {
+        err += 'country is required\n';
     }
 
     if (err !== '') {
