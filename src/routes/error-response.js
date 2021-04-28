@@ -1,4 +1,4 @@
-const { DomainError, errorType } = require("../core/custom-error");
+const { errorType } = require("../core/custom-error");
 
 module.exports.getErrorResponse = (res, message, error, stack) => {
     const ret = {

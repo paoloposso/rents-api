@@ -15,12 +15,7 @@ function ApartmentService(repo, idGenerator) {
         return await this.repo.getAll();
     }
 
-    this.save = async (req) => {
-        const apartment = new Apartment(
-            req.description, 
-            new Address(req.address.street, req.address.city, req.address.number, req.address.zip, 
-                req.address.neighborhood, req.address.country), 
-            req.price);
+    this.save = async (apartment) => {
 
         checkValidApartment(apartment);
         checkValidAddress(apartment.address);
