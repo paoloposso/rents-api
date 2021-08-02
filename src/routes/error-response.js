@@ -1,14 +1,7 @@
 const { errorType } = require("../core/custom-error");
 
-module.exports.getErrorResponse = (res, message, error, stack) => {
-    const ret = {
-        message,
-        error,
-        stack
-    }
-
-    res.status(getHttpCode(error)).send(ret);
-}
+module.exports.getErrorResponse = (res, message, error, stack) =>
+    res.status(getHttpCode(error)).send({ message, error, stack });
 
 function getHttpCode(err) {
     switch (err.domainErrorType) {

@@ -2,29 +2,18 @@ const { Apartment } = require('./apartment');
 const { Address } = require('./address');
 const { errorType, DomainError } = require('../core/custom-error');
 
-/**
- * 
- * @param {*} repo 
- * @param {*} idGenerator 
- */
-function ApartmentService({repo, idGenerator}) {
-    this.repo = repo;
-    this.idGenerator = idGenerator;
-}
-
 const createGetAllApartments = ({repo}) => () => repo.getAll();
 
-const createSaveApartment = 
-    ({repo, idGenerator}) =>
-    async (apartment) => {
+const createSaveApartment = ({repo, idGenerator}) =>
+    (apartment) => {
         checkValidApartment(apartment);
         checkValidAddress(apartment.address);
 
         if (!apartment.id) {
             apartment.id = idGenerator.generate();
-            return await repo.insert(apartment);
+            return repo.insert(apartment);
         }
-        return await repo.update(apartment);
+        return repo.update(apartment);
     }
 
 /**
@@ -79,4 +68,4 @@ function checkValidApartment(apartment) {
     checkValidAddress(apartment.address);
 }
 
-module.exports = { ApartmentService, createSaveApartment, createGetAllApartments };
+module.exports = { createSaveApartment, createGetAllApartments };

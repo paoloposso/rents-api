@@ -2,7 +2,6 @@ const { ApartmentService } = require('../apartments/service');
 const { Apartment } = require('../apartments/apartment');
 const { Address } = require('../apartments/address');
 const { ApartmentRepository } = require('../infrastructure/mongo-db/apartment-repository');
-const _ = require('lodash');
 const idGenerator = require('../infrastructure/id-generator');
 const { getErrorResponse } = require('./error-response');
 const { DomainError } = require('../core/custom-error');

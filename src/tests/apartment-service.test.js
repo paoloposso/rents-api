@@ -1,4 +1,4 @@
-const { createSaveApartment, createGetAllApartments, ApartmentService } = require('../apartments/service');
+const { createSaveApartment, createGetAllApartments } = require('../apartments/service');
 const { ApartmentRepository } = require('../infrastructure/mock-db/apartment-repository');
 const { Address } = require('../apartments/address');
 const { Apartment } = require('../apartments/apartment');
@@ -6,7 +6,6 @@ const idGenerator = require('../infrastructure/id-generator');
 
 const repo = new ApartmentRepository();
 
-let service = new ApartmentService({repo, idGenerator});
 const saveApartment = createSaveApartment({repo, idGenerator});
 const getAllApartments = createGetAllApartments({repo});
 
