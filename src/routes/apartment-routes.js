@@ -7,7 +7,7 @@ const idGenerator = require('../infrastructure/id-generator');
 const { getErrorResponse } = require('./error-response');
 const { DomainError } = require('../core/custom-error');
 
-const service = new ApartmentService(new ApartmentRepository(), idGenerator);
+const service = new ApartmentService({repo: new ApartmentRepository(), idGenerator});
 
 module.exports.register = (app) => {
     app.get('/apartments', async (req, res) => {
