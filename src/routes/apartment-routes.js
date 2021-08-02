@@ -1,4 +1,4 @@
-const { ApartmentService } = require('../apartments/service');
+const { createSaveApartment, createGetAllApartments } = require('../apartments/service');
 const { Apartment } = require('../apartments/apartment');
 const { Address } = require('../apartments/address');
 const { ApartmentRepository } = require('../infrastructure/mongo-db/apartment-repository');
@@ -6,12 +6,15 @@ const idGenerator = require('../infrastructure/id-generator');
 const { getErrorResponse } = require('./error-response');
 const { DomainError } = require('../core/custom-error');
 
-const service = new ApartmentService({repo: new ApartmentRepository(), idGenerator});
+const repo = new ApartmentRepository();
+
+const save = createSaveApartment({repo, idGenerator});
+const getAll = createGetAllApartments({repo});
 
 module.exports.register = (app) => {
     app.get('/apartments', async (req, res) => {
         try {
-            return res.send(await service.getAll());
+            return res.send(await getAll());
         } catch (err) {
             return getErrorResponse(res, err.message, err, err.stack);
         }
@@ -20,7 +23,7 @@ module.exports.register = (app) => {
     app.post('/apartment', async (req, res) => {
         try {
             const apartment = requestToApartment(req);
-            return res.send(await service.save(apartment));
+            return res.send(await save(apartment));
         } catch (err) {
             return getErrorResponse(res, err.message, err, err.stack);
         }
@@ -33,7 +36,7 @@ module.exports.register = (app) => {
             }
             const apartment = requestToApartment(req);
             apartment.id = req.body.id;
-            return res.send(await service.save(req.body));
+            return res.send(await save(apartment));
         } catch (err) {
             return getErrorResponse(res, err.message, err, err.stack);
         }
