@@ -7,7 +7,6 @@ class DomainError extends Error {
         super(message);
         this.name = this.constructor.name;
         this.domainErrorType = type;
-        // Error.captureStackTrace(this, this.constructor);
     }
 }
 

@@ -40,7 +40,7 @@ function checkValidAddress(address) {
     }
 
     if (err !== '') {
-        throw new DomainError(new Error(err), errorType.InvalidParameters);
+        throw new DomainError(err, errorType.InvalidParameters);
     }
 }
 
@@ -62,7 +62,7 @@ function checkValidApartment(apartment) {
     }
 
     if (err !== '') {
-        throw new DomainError(new Error(err), errorType.InvalidParameters);
+        throw new DomainError(err, errorType.InvalidParameters);
     }
 
     checkValidAddress(apartment.address);
