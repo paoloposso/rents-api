@@ -26,6 +26,6 @@ apartmentSchema.methods.toJSON = function () {
     return apartmentObj;
 };
 
-const ApartmentSchema = mongoose.model('Aparment', apartmentSchema);
+const ApartmentSchema = mongoose.model('Apartment', apartmentSchema);
 
 module.exports = { ApartmentSchema };

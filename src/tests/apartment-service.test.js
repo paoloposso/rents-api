@@ -43,7 +43,9 @@ it('should fail creation validation', async () => {
         let apartment = createApartment('', 
             createAddress('green av', 'sao paulo', '100', '10020456', 'Sé', 'brazil'), 
             150.00);
+            
         await save(apartment);
+        
         fail('creation should not have suceeded');
     } catch (err) {
         expect(err.message).toContain('config params');
@@ -56,7 +58,9 @@ it('should fail update validation', async () => {
             createAddress('green av', 'sao paulo', '100', '10020456', 'Sé', 'brazil'), 
             150.00);
         apartment.id = idGenerator.generate();
+        
         await saveApartment(apartment);
+        
         fail('update should not have suceeded');
     } catch (err) {
         expect(err.message).toContain('is required');
@@ -69,7 +73,9 @@ it('should update', async () => {
             createAddress('green av', 'sao paulo', '100', '10020456', 'Sé', 'brazil'), 
             150.00);
         apartment.id = idGenerator.generate();
+
         const ret = await saveApartment(apartment);
+
         expect(ret).not.toBe('');
     } catch (err) {
         fail(err);

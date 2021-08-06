@@ -1,17 +1,14 @@
 const { createSaveApartment, createGetAllApartments } = require('../apartments/service');
 const { createApartment } = require('../apartments/apartment');
 const { createAddress } = require('../apartments/address');
-const { ApartmentRepository } = require('../infrastructure/mongo-db/apartment-repository');
 const idGenerator = require('../infrastructure/id-generator');
 const { getErrorResponse } = require('./error-response');
 const { DomainError } = require('../core/custom-error');
 
-const repo = new ApartmentRepository();
+module.exports.register = (app, repo) => {
+    const save = createSaveApartment({repo, idGenerator});
+    const getAll = createGetAllApartments({repo});
 
-const save = createSaveApartment({repo, idGenerator});
-const getAll = createGetAllApartments({repo});
-
-module.exports.register = (app) => {
     app.get('/apartments', async (req, res) => {
         try {
             return res.send(await getAll());
@@ -22,7 +19,7 @@ module.exports.register = (app) => {
     
     app.post('/apartment', async (req, res) => {
         try {
-            const apartment = requestToApartment(req);
+            const apartment = requestToApartment(req.body);
             return res.send(await save(apartment));
         } catch (err) {
             return getErrorResponse(res, err.message, err, err.stack);
@@ -32,7 +29,7 @@ module.exports.register = (app) => {
     app.put('/apartment', async (req, res) => {
         try {
             if (!req.body.id) throw new DomainError("id is required");
-            return res.send(await save(requestToApartment(req)));
+            return res.send(await save(requestToApartment(req.body)));
         } catch (err) {
             return getErrorResponse(res, err.message, err, err.stack);
         }
