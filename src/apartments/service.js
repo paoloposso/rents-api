@@ -5,7 +5,7 @@ const { errorType, DomainError } = require('../core/custom-error');
 const createGetAllApartments = ({repo}) => () => repo.getAll();
 
 const createSaveApartment = 
-    ({repo, idGenerator}) => {
+    ({ repo, idGenerator }) => {
         if (!repo || !repo.insert || !idGenerator || !idGenerator.generate) {
             throw new DomainError('invalid config params', errorType.ConfigError);
         }

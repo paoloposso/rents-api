@@ -37,6 +37,19 @@ it('should fail creation validation', async () => {
     }
 });
 
+it('should fail creation validation', async () => {
+    try {
+        const save = createSaveApartment({});
+        let apartment = createApartment('', 
+            createAddress('green av', 'sao paulo', '100', '10020456', 'Sé', 'brazil'), 
+            150.00);
+        await save(apartment);
+        fail('creation should not have suceeded');
+    } catch (err) {
+        expect(err.message).toContain('config params');
+    }
+});
+
 it('should fail update validation', async () => {
     try {
         let apartment = createApartment('', 
