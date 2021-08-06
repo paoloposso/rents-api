@@ -69,5 +69,3 @@ async function connectToMongo() {
   }
 }
 ```
-
-test
