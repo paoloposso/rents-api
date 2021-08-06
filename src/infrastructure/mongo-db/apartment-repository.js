@@ -1,3 +1,5 @@
+const { ApartmentSchema } = require('./apartment-schema');
+
 function ApartmentRepository() {
     this.getAll = async () => {
         return await ApartmentSchema.find({});

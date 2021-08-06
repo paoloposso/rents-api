@@ -4,17 +4,19 @@ const { errorType, DomainError } = require('../core/custom-error');
 
 const createGetAllApartments = ({repo}) => () => repo.getAll();
 
-const createSaveApartment = ({repo, idGenerator}) =>
-    (apartment) => {
-        checkValidApartment(apartment);
-        checkValidAddress(apartment.address);
+const createSaveApartment = 
+    ({repo, idGenerator}) =>
+        (apartment) => {
+            checkValidApartment(apartment);
+            checkValidAddress(apartment.address);
 
-        if (!apartment.id) {
-            apartment.id = idGenerator.generate();
-            return repo.insert(apartment);
+            if (!apartment.id) {
+                apartment.id = idGenerator.generate();
+                return repo.insert(apartment);
+            }
+            
+            return repo.update(apartment);
         }
-        return repo.update(apartment);
-    }
 
 /**
  * 

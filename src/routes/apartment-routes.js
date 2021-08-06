@@ -1,5 +1,5 @@
 const { createSaveApartment, createGetAllApartments } = require('../apartments/service');
-const { Apartment } = require('../apartments/apartment');
+const { createApartment } = require('../apartments/apartment');
 const { Address } = require('../apartments/address');
 const { ApartmentRepository } = require('../infrastructure/mongo-db/apartment-repository');
 const idGenerator = require('../infrastructure/id-generator');
@@ -44,9 +44,9 @@ module.exports.register = (app) => {
 }
 
 function requestToApartment(req) {
-    return new Apartment(
-        req.description, 
-        new Address(req.address.street, req.address.city, req.address.number, req.address.zip, 
+    return createApartment({
+        description: req.description, 
+        address: new Address(req.address.street, req.address.city, req.address.number, req.address.zip, 
             req.address.neighborhood, req.address.country), 
-        req.price);
+        price: req.price});
 }
