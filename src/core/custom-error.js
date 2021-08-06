@@ -1,5 +1,6 @@
 const errorType = {
 	InvalidParameters: "InvalidParameters",
+	ConfigError: "ConfigError",
 }
 
 class DomainError extends Error {

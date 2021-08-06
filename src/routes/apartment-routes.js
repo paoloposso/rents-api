@@ -1,6 +1,6 @@
 const { createSaveApartment, createGetAllApartments } = require('../apartments/service');
 const { createApartment } = require('../apartments/apartment');
-const { Address } = require('../apartments/address');
+const { createAddress } = require('../apartments/address');
 const { ApartmentRepository } = require('../infrastructure/mongo-db/apartment-repository');
 const idGenerator = require('../infrastructure/id-generator');
 const { getErrorResponse } = require('./error-response');
@@ -31,12 +31,8 @@ module.exports.register = (app) => {
 
     app.put('/apartment', async (req, res) => {
         try {
-            if (!req.body.id) {
-                throw new DomainError("id is required");
-            }
-            const apartment = requestToApartment(req);
-            apartment.id = req.body.id;
-            return res.send(await save(apartment));
+            if (!req.body.id) throw new DomainError("id is required");
+            return res.send(await save(requestToApartment(req)));
         } catch (err) {
             return getErrorResponse(res, err.message, err, err.stack);
         }
@@ -44,9 +40,9 @@ module.exports.register = (app) => {
 }
 
 function requestToApartment(req) {
-    return createApartment({
-        description: req.description, 
-        address: new Address(req.address.street, req.address.city, req.address.number, req.address.zip, 
+    return createApartment(
+        req.description, 
+        createAddress(req.address.street, req.address.city, req.address.number, req.address.zip, 
             req.address.neighborhood, req.address.country), 
-        price: req.price});
+        req.price, req.id);
 }

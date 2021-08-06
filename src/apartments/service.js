@@ -5,18 +5,23 @@ const { errorType, DomainError } = require('../core/custom-error');
 const createGetAllApartments = ({repo}) => () => repo.getAll();
 
 const createSaveApartment = 
-    ({repo, idGenerator}) =>
-        (apartment) => {
+    ({repo, idGenerator}) => {
+        if (!repo || !repo.insert || !idGenerator || !idGenerator.generate) {
+            throw new DomainError('invalid config params', errorType.ConfigError);
+        }
+
+        return (apartment) => {
             checkValidApartment(apartment);
             checkValidAddress(apartment.address);
 
             if (!apartment.id) {
-                apartment.id = idGenerator.generate();
+                apartment = Object.assign(apartment, idGenerator.generate());
                 return repo.insert(apartment);
             }
             
             return repo.update(apartment);
         }
+    }
 
 /**
  * 

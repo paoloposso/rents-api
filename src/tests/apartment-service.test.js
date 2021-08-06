@@ -1,6 +1,6 @@
 const { createSaveApartment, createGetAllApartments } = require('../apartments/service');
 const { ApartmentRepository } = require('../infrastructure/mock-db/apartment-repository');
-const { Address } = require('../apartments/address');
+const { createAddress } = require('../apartments/address');
 const { createApartment } = require('../apartments/apartment');
 const idGenerator = require('../infrastructure/id-generator');
 
@@ -11,11 +11,12 @@ const getAllApartments = createGetAllApartments({repo});
 
 it('should create apartment', async () => {
     let ret = 
-        await saveApartment(createApartment({description: 'loasdlsa', 
-        address: new Address('green av', 'sao paulo', '100', '10020456', 'Sé', 'brazil'), 
-        price: 150.00}));
+        await saveApartment(createApartment('loasdlsa', 
+        createAddress('green av', 'sao paulo', '100', '10020456', 'Sé', 'brazil'), 
+        150.00));
 
     expect(ret).not.toBe('');
+    expect(ret).not.toBeUndefined();
 });
 
 it('should get all apartments', async () => {
@@ -26,9 +27,9 @@ it('should get all apartments', async () => {
 
 it('should fail creation validation', async () => {
     try {
-        let apartment = createApartment({description: '', 
-            address: new Address('green av', 'sao paulo', '100', '10020456', 'Sé', 'brazil'), 
-            price: 150.00});
+        let apartment = createApartment('', 
+            createAddress('green av', 'sao paulo', '100', '10020456', 'Sé', 'brazil'), 
+            150.00);
         const ret = await saveApartment(apartment);
         fail('creation should not have suceeded');
     } catch (err) {
@@ -38,9 +39,9 @@ it('should fail creation validation', async () => {
 
 it('should fail update validation', async () => {
     try {
-        let apartment = createApartment({description: '', 
-            address: new Address('green av', 'sao paulo', '100', '10020456', 'Sé', 'brazil'), 
-            price: 150.00});
+        let apartment = createApartment('', 
+            createAddress('green av', 'sao paulo', '100', '10020456', 'Sé', 'brazil'), 
+            150.00);
         apartment.id = idGenerator.generate();
         await saveApartment(apartment);
         fail('update should not have suceeded');
@@ -51,9 +52,9 @@ it('should fail update validation', async () => {
 
 it('should update', async () => {
     try {
-        let apartment = createApartment({description: 'asdasd', 
-            address: new Address('green av', 'sao paulo', '100', '10020456', 'Sé', 'brazil'), 
-            price: 150.00});
+        let apartment = createApartment('asdasd', 
+            createAddress('green av', 'sao paulo', '100', '10020456', 'Sé', 'brazil'), 
+            150.00);
         apartment.id = idGenerator.generate();
         const ret = await saveApartment(apartment);
         expect(ret).not.toBe('');

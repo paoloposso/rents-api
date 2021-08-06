@@ -1,10 +1,20 @@
-const { Address } = require('./address');
+/**
+ * 
+ * @param {string} description 
+ * @param {{}} address 
+ * @param {number} price 
+ * @param {string} id
+ * @returns
+ */
+const createApartment = (description, address, price, id = '') => {
+    return {
+        description,
+        address,
+        price,
+        id
+    };
+}
 
-module.exports.createApartment = ({description, address, price}) => ({
-    description,
-    address,
-    price,
-    setId(id) {
-        this.id = id
-    }
-});
+module.exports = { 
+    createApartment
+}
